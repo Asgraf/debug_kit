@@ -113,4 +113,11 @@ Log::setConfig([
     ]
 ]);
 
+<<<<<<< HEAD
 Plugin::getCollection()->add(new \DebugKit\Plugin());
+=======
+Plugin::load('DebugKit', ['path' => ROOT . DS, 'bootstrap' => true]);
+
+DispatcherFactory::add('Routing');
+DispatcherFactory::add('ControllerFactory');
+>>>>>>> origin/issue-573
