@@ -1,9 +1,12 @@
 <?php
 use Cake\Routing\RouteBuilder;
+use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\Router;
 
 Router::plugin('DebugKit', ['path' => '/debug-kit'], function (RouteBuilder $routes) {
     $routes->setExtensions('json');
+    $routes->setRouteClass(DashedRoute::class);
+
     $routes->connect(
         '/toolbar/clear-cache',
         ['controller' => 'Toolbar', 'action' => 'clearCache']
@@ -36,4 +39,8 @@ Router::plugin('DebugKit', ['path' => '/debug-kit'], function (RouteBuilder $rou
             $routes->connect('/sent/:panel/:id', ['action' => 'sent'], ['pass' => ['panel', 'id']]);
         }
     );
+
+    $routes->get('/', ['controller' => 'Dashboard', 'action' => 'index']);
+    $routes->get('/dashboard', ['controller' => 'Dashboard', 'action' => 'index']);
+    $routes->post('/dashboard/reset', ['controller' => 'Dashboard', 'action' => 'reset']);
 });

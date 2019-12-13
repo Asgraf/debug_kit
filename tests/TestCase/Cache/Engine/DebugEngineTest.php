@@ -58,7 +58,7 @@ class DebugEngineTest extends TestCase
     {
         $engine = new DebugEngine([
             'className' => 'File',
-            'path' => TMP
+            'path' => TMP,
         ]);
         $this->assertTrue($engine->init());
         $this->assertInstanceOf('Cake\Cache\Engine\FileEngine', $engine->engine());
@@ -74,7 +74,7 @@ class DebugEngineTest extends TestCase
     {
         $engine = new DebugEngine([
             'className' => 'Derpy',
-            'path' => TMP
+            'path' => TMP,
         ]);
         $engine->init();
     }
@@ -104,9 +104,9 @@ class DebugEngineTest extends TestCase
         $this->engine->decrement('key');
 
         $result = $this->engine->metrics();
-        $this->assertEquals(3, $result['write']);
-        $this->assertEquals(1, $result['delete']);
-        $this->assertEquals(1, $result['read']);
+        $this->assertSame(3, $result['write']);
+        $this->assertSame(1, $result['delete']);
+        $this->assertSame(1, $result['read']);
     }
 
     /**
@@ -149,7 +149,7 @@ class DebugEngineTest extends TestCase
         $engine = new DebugEngine([
             'className' => 'File',
             'path' => TMP,
-            'groups' => ['test', 'test2']
+            'groups' => ['test', 'test2'],
         ]);
         $engine->init();
         $result = $engine->groups();
@@ -165,7 +165,7 @@ class DebugEngineTest extends TestCase
     {
         $engine = new DebugEngine([
             'className' => 'File',
-            'path' => TMP
+            'path' => TMP,
         ]);
         $engine->init();
 
@@ -185,7 +185,7 @@ class DebugEngineTest extends TestCase
         $engine = new DebugEngine([
             'className' => 'File',
             'path' => TMP,
-            'groups' => ['test', 'test2']
+            'groups' => ['test', 'test2'],
         ]);
         $this->assertEquals('File', (string)$engine);
     }

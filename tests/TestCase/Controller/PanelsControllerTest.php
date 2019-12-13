@@ -13,11 +13,8 @@
  */
 namespace DebugKit\Test\TestCase\Controller;
 
-use Cake\Database\Driver\Sqlite;
-use Cake\Datasource\ConnectionManager;
-use Cake\Routing\RouteBuilder;
-use Cake\Routing\Router;
 use Cake\TestSuite\IntegrationTestCase;
+use DebugKit\TestApp\Application;
 
 /**
  * Panel controller test.
@@ -32,7 +29,7 @@ class PanelsControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'plugin.DebugKit.Requests',
-        'plugin.DebugKit.Panels'
+        'plugin.DebugKit.Panels',
     ];
 
     /**
@@ -43,9 +40,7 @@ class PanelsControllerTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        Router::plugin('DebugKit', function (RouteBuilder $routes) {
-            $routes->connect('/panels/:action/*', ['controller' => 'Panels']);
-        });
+        $this->configApplication(Application::class, []);
         $this->useHttpServer(true);
     }
 
@@ -59,10 +54,10 @@ class PanelsControllerTest extends IntegrationTestCase
         $this->configRequest([
             'headers' => [
                 'accept' => 'application/json, text/javascript, */*; q=0.01',
-            ]
+            ],
         ]);
 
-        $this->get('/debug_kit/panels/index/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
+        $this->get('/debug-kit/panels/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
 
         $this->assertResponseOk();
         $this->assertContentType('application/json');
@@ -75,7 +70,7 @@ class PanelsControllerTest extends IntegrationTestCase
      */
     public function testView()
     {
-        $this->get('/debug_kit/panels/view/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
+        $this->get('/debug-kit/panels/view/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
 
         $this->assertResponseOk();
         $this->assertResponseContains('Request</h2>');
@@ -89,7 +84,7 @@ class PanelsControllerTest extends IntegrationTestCase
      */
     public function testViewNotExists()
     {
-        $this->get('/debug_kit/panels/view/aaaaaaaa-ffff-ffff-ffff-aaaaaaaaaaaa');
+        $this->get('/debug-kit/panels/view/aaaaaaaa-ffff-ffff-ffff-aaaaaaaaaaaa');
         $this->assertResponseError();
         $this->assertResponseContains('Error page');
     }

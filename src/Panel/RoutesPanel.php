@@ -27,16 +27,20 @@ class RoutesPanel extends DebugPanel
     /**
      * Get summary data for the routes panel.
      *
-     * @return int
+     * @return string
      */
     public function summary()
     {
         $appClass = Configure::read('App.namespace') . '\Application';
         if (class_exists($appClass, false) && !Router::$initialized) {
-            return 0;
+            return '0';
         }
 
-        return count(Router::routes());
+        $routes = array_filter(Router::routes(), function ($route) {
+            return (!isset($routes->defaults['plugin'])) || $route->defaults['plugin'] !== 'DebugKit';
+        });
+
+        return (string)count($routes);
     }
 
     /**
